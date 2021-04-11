@@ -33,14 +33,14 @@ namespace Ordering.API.Controllers
             return Ok(orders);
         }
 
-        // testing purpose
-        [HttpPost(Name = "CheckoutOrder")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<ActionResult<int>> CheckoutOrder([FromBody] CheckoutOrderCommand command)
-        {
-            var result = await _mediator.Send(command);
-            return Ok(result);
-        }
+        //// testing purpose
+        //[HttpPost(Name = "CheckoutOrder")]
+        //[ProducesResponseType((int)HttpStatusCode.OK)]
+        //public async Task<ActionResult<int>> CheckoutOrder([FromBody] CheckoutOrderCommand command)
+        //{
+        //    var result = await _mediator.Send(command);
+        //    return Ok(result);
+        //}
 
         [HttpPut(Name = "UpdateOrder")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

@@ -61,7 +61,7 @@ services:
     depends_on:
       - catalogdb
     ports:
-      - "4000:80"
+      - "4001:80"
 
   basket.api:
     container_name: basket.api
@@ -74,7 +74,7 @@ services:
       - basketdb
       - rabbitmq
     ports:
-      - "4001:80"
+      - "4002:80"
 
   discount.api:
     container_name: discount.api
@@ -84,7 +84,7 @@ services:
     depends_on:
       - discountdb
     ports:
-      - "4002:80"
+      - "4003:80"
 
   discount.grpc:
     container_name: discount.grpc
@@ -94,7 +94,7 @@ services:
     depends_on:
       - discountdb
     ports:
-      - "4003:80"
+      - "4004:80"
 
 
   ordering.api:
@@ -107,5 +107,17 @@ services:
       - orderdb
       - rabbitmq
     ports:
-      - "4004:80"
+      - "4005:80"
+
+  ocelotapigw:
+    container_name: ocelotapigw
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - catalog.api
+      - basket.api
+      - discount.api
+      - ordering.api
+    ports:
+      - "4000:80"
 
