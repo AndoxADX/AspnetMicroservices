@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 
@@ -28,7 +29,7 @@ namespace Basket.API
             ConfigureGrpc(services);
             ConfigureRabbitMq(services);
             ConfigureRepositories(services);
-
+            ConfigureJWT(services);
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -49,6 +50,7 @@ namespace Basket.API
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -87,7 +89,25 @@ namespace Basket.API
         private void ConfigureRepositories(IServiceCollection services)
         {
             services.AddScoped<IBasketRepository, BasketRepository>();
-        } 
+        }
+
+        private void ConfigureJWT(IServiceCollection services)
+        {
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = Configuration["IdentityServer:BaseUrl"];
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false
+                    };
+                });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ClientIdPolicy", policy => policy.RequireClaim("client_id", "basketClient"));
+            });
+        }
         #endregion
     }
 }
