@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Ordering.Application.Features.Orders.Commands.CheckoutOrder;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace Ordering.API.Controllers
 {
+    [Authorize("ClientIdPolicy")]
     [Route("api/v1/[controller]")]
     [ApiController]
     public class OrderController : ControllerBase

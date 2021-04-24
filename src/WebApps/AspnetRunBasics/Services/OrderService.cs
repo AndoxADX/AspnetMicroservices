@@ -1,5 +1,6 @@
 ﻿using AspnetRunBasics.Extensions;
 using AspnetRunBasics.Models;
+using AspnetRunBasics.Utils;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -9,16 +10,20 @@ namespace AspnetRunBasics.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly HttpClient _client;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public OrderService(HttpClient client)
+        public OrderService(IHttpClientFactory httpClientFactory)
         {
-            _client = client ?? throw new ArgumentNullException(nameof(client));
+            _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
         }
 
         public async Task<IEnumerable<OrderResponseModel>> GetOrdersByUserName(string userName)
         {
-            var response = await _client.GetAsync($"/Order/{userName}");
+            var httpClient = _httpClientFactory.CreateClient(IdentityClient.ShopAPIClient);
+            var request = new HttpRequestMessage(HttpMethod.Get, $"/Order/{userName}");
+            var response = await httpClient.SendAsync(
+                request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+
             return await response.ReadContentAs<List<OrderResponseModel>>();
         }
     }
