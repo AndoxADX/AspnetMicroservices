@@ -3,11 +3,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using AspnetRunBasics.Models;
 using AspnetRunBasics.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AspnetRunBasics
 {
+    [Authorize]
     public class CartModel : PageModel
     {
         private readonly IBasketService _basketService;

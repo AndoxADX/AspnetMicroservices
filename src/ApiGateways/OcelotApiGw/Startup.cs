@@ -6,22 +6,32 @@ using Microsoft.Extensions.Hosting;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Cache.CacheManager;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Configuration;
 
 namespace OcelotApiGw
 {
     public class Startup
     {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            ConfigureAuthentication(services);
+
             services.AddOcelot()
                 .AddCacheManager(x =>
-            {
-                x.WithDictionaryHandle();
-            });
+                {
+                    x.WithDictionaryHandle();
+                });
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public async void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -30,6 +40,7 @@ namespace OcelotApiGw
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseHttpsRedirection();
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
@@ -41,5 +52,22 @@ namespace OcelotApiGw
             });
             await app.UseOcelot();
         }
+
+        #region Private Methods
+        private void ConfigureAuthentication(IServiceCollection services)
+        {
+            var authenticationProviderKey = "IdentityApiKey";
+            services.AddAuthentication()
+            .AddJwtBearer(authenticationProviderKey, x =>
+            {
+                x.Authority = Configuration["IdentityServer:BaseUrl"]; // IDENTITY SERVER URL
+                                                        //x.RequireHttpsMetadata = false;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateAudience = false
+                };
+            });
+        } 
+        #endregion
     }
 }

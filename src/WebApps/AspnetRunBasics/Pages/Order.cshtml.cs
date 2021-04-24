@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AspnetRunBasics.Models;
 using AspnetRunBasics.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AspnetRunBasics
 {
+    [Authorize]
     public class OrderModel : PageModel
     {
         private readonly IOrderService _orderService;

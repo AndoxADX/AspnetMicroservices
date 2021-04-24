@@ -1,44 +1,55 @@
 ﻿using AspnetRunBasics.Extensions;
 using AspnetRunBasics.Models;
+using AspnetRunBasics.Utils;
+using Newtonsoft.Json;
 using System;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace AspnetRunBasics.Services
 {
     public class BasketService : IBasketService
     {
-        private readonly HttpClient _client;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public BasketService(HttpClient client)
+        public BasketService(IHttpClientFactory httpClientFactory)
         {
-            _client = client ?? throw new ArgumentNullException(nameof(client));
+            _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
         }
 
         public async Task<BasketModel> GetBasket(string userName)
         {
-            var response = await _client.GetAsync($"/Basket/{userName}");
+            var httpClient = _httpClientFactory.CreateClient(IdentityClient.ShopAPIClient);
+            var request = new HttpRequestMessage(HttpMethod.Get, $"/Basket/{userName}");
+            var response = await httpClient.SendAsync(
+                request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+
             return await response.ReadContentAs<BasketModel>();
         }
 
         public async Task<BasketModel> UpdateBasket(BasketModel model)
         {
-            var response = await _client.PostAsJson($"/Basket", model);
-            if (response.IsSuccessStatusCode)
-                return await response.ReadContentAs<BasketModel>();
-            else
-            {
-                throw new Exception("Something went wrong when calling api.");
-            }
+            var httpClient = _httpClientFactory.CreateClient(IdentityClient.ShopAPIClient);
+            var request = new HttpRequestMessage(HttpMethod.Post, $"/Basket");
+            var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            request.Content = content;
+
+            var response = await httpClient.SendAsync(
+                request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+
+            return await response.ReadContentAs<BasketModel>();
         }
 
         public async Task CheckoutBasket(BasketCheckoutModel model)
         {
-            var response = await _client.PostAsJson($"/Basket/Checkout", model);
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new Exception("Something went wrong when calling api.");
-            }
+            var httpClient = _httpClientFactory.CreateClient(IdentityClient.ShopAPIClient);
+            var request = new HttpRequestMessage(HttpMethod.Post, $"/Basket/Checkout");
+            var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            request.Content = content;
+
+            await httpClient.SendAsync(
+                request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
         }
     }
 }

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Catalog.API.Controllers
 {
+    [Authorize("ClientIdPolicy")]
     [ApiController]
     [Route("api/v1/[controller]")]
     public class CatalogController : ControllerBase
@@ -66,6 +67,7 @@ namespace Catalog.API.Controllers
             return CreatedAtRoute("GetProduct", new { id = product.Id }, product);
         }
 
+        [Authorize("ClientIdPolicy")]
         [HttpPut]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateProduct([FromBody] Product product)
@@ -73,6 +75,7 @@ namespace Catalog.API.Controllers
             return Ok(await _repository.UpdateProduct(product));
         }
 
+        [Authorize("ClientIdPolicy")]
         [HttpDelete("{id:length(24)}", Name = "DeleteProduct")]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteProductById(string id)
