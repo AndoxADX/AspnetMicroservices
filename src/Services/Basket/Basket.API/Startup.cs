@@ -26,12 +26,16 @@ namespace Basket.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHealthChecks();
+
             ConfigureConsul(services);
             ConfigureRedis(services);
             ConfigureGrpc(services);
             ConfigureRabbitMq(services);
             ConfigureRepositories(services);
             ConfigureJWT(services);
+
+
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -59,6 +63,7 @@ namespace Basket.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health");
             });
         }
 
