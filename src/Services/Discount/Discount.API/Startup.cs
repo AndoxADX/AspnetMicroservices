@@ -1,4 +1,5 @@
 using Discount.API.Repositories;
+using Infrastructure.ServiceDiscovery;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,8 @@ namespace Discount.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IDiscountRepository, DiscountRepository>();
+            ConfigureConsul(services);
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -47,5 +50,15 @@ namespace Discount.API
                 endpoints.MapControllers();
             });
         }
+
+        #region Private Methods
+        private void ConfigureConsul(IServiceCollection services)
+        {
+            var serviceConfig = Configuration.GetServiceConfig();
+
+            services.RegisterConsulServices(serviceConfig);
+        }
+
+        #endregion
     }
 }

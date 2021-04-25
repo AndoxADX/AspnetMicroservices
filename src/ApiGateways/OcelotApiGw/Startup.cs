@@ -8,6 +8,7 @@ using Ocelot.Middleware;
 using Ocelot.Cache.CacheManager;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
+using Ocelot.Provider.Consul;
 
 namespace OcelotApiGw
 {
@@ -25,13 +26,9 @@ namespace OcelotApiGw
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigureAuthentication(services);
-
-            services.AddOcelot()
-                .AddCacheManager(x =>
-                {
-                    x.WithDictionaryHandle();
-                });
+            ConfigureOcelot(services);
         }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public async void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -68,6 +65,16 @@ namespace OcelotApiGw
                 };
             });
         } 
+
+        private void ConfigureOcelot(IServiceCollection services)
+        {
+            services.AddOcelot()
+                .AddCacheManager(x =>
+                {
+                    x.WithDictionaryHandle();
+                })
+               .AddConsul();
+        }
         #endregion
     }
 }

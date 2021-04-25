@@ -43,6 +43,14 @@ services:
     ports:
       - "1433:1433"
 
+  consul:
+    container_name: consul
+    restart: always
+    command: consul agent -dev -log-level=warn -ui -client=0.0.0.0
+    hostname: consul
+    ports:
+      - "8500:8500"
+
   portainer:
     container_name: portainer
     restart: always
@@ -62,10 +70,13 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Password=password
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - "DatabaseSettings:ConnectionString=mongodb://catalogdb:27017"
-      - "IdentityServer:BaseUrl=https://identityserver"
+      - "IdentityServer:BaseUrl=https://consul"
+      - "ServiceConfig:serviceDiscoveryAddress=https://identityserver"
+      - "ServiceConfig:serviceAddress=https://catalog.api"
     depends_on:
       - catalogdb
       - identityserver
+      - consul
     ports:
       - "4001:443"
     volumes:
@@ -83,10 +94,13 @@ services:
       - "GrpcSettings:DiscountUrl=https://discount.grpc"
       - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
       - "IdentityServer:BaseUrl=https://identityserver"
+      - "ServiceConfig:serviceDiscoveryAddress=https://identityserver"
+      - "ServiceConfig:serviceAddress=https://basket.api"
     depends_on:
       - basketdb
       - rabbitmq
       - identityserver
+      - consul
     ports:
       - "4002:443"
     volumes:
@@ -101,8 +115,11 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Password=password
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - "DatabaseSettings:ConnectionString=Server=discountdb;Port=5432;Database=discountdb;User Id=admin;Password=admin12345;"
+      - "ServiceConfig:serviceDiscoveryAddress=https://identityserver"
+      - "ServiceConfig:serviceAddress=https://discount.api"
     depends_on:
       - discountdb
+      - consul
     ports:
       - "4003:443"
     volumes:
@@ -136,10 +153,13 @@ services:
       - "ConnectionStrings:OrderingConnectionString=Server=orderdb;Database=OrderDb;User Id=sa;Password=SwN12345678"
       - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
       - "IdentityServer:BaseUrl=https://identityserver"
+      - "ServiceConfig:serviceDiscoveryAddress=https://identityserver"
+      - "ServiceConfig:serviceAddress=https://ordering.api"
     depends_on:
       - orderdb
       - rabbitmq
       - identityserver
+      - consul
     ports:
       - "4005:443"
     volumes:
@@ -160,6 +180,7 @@ services:
       - discount.api
       - ordering.api
       - identityserver
+      - consul
     ports:
       - "4000:443"
     volumes:

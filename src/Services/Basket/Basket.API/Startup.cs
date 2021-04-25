@@ -1,6 +1,7 @@
 using Basket.API.GrpcServices;
 using Basket.API.Repositories;
 using Discount.Grpc.Protos;
+using Infrastructure.ServiceDiscovery;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,6 +26,7 @@ namespace Basket.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            ConfigureConsul(services);
             ConfigureRedis(services);
             ConfigureGrpc(services);
             ConfigureRabbitMq(services);
@@ -108,6 +110,13 @@ namespace Basket.API
             {
                 options.AddPolicy("ClientIdPolicy", policy => policy.RequireClaim("client_id", "shop_mvc_client"));
             });
+        }
+
+        private void ConfigureConsul(IServiceCollection services)
+        {
+            var serviceConfig = Configuration.GetServiceConfig();
+
+            services.RegisterConsulServices(serviceConfig);
         }
         #endregion
     }

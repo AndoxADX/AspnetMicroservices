@@ -16,6 +16,9 @@ services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
 
+  consul:
+    image: consul
+
   portainer:
     image: portainer/portainer-ce
 

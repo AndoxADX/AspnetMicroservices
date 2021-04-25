@@ -1,4 +1,5 @@
 using EventBus.Messages.Common;
+using Infrastructure.ServiceDiscovery;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +30,7 @@ namespace Ordering.API
             services.AddInfrastructureServices(Configuration);
             ConfigureRabbitMq(services);
             ConfigureJWT(services);
+            ConfigureConsul(services);
 
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<BasketCheckoutConsumer>();
@@ -95,6 +97,14 @@ namespace Ordering.API
                 options.AddPolicy("ClientIdPolicy", policy => policy.RequireClaim("client_id", "shop_mvc_client"));
             });
         }
+
+        private void ConfigureConsul(IServiceCollection services)
+        {
+            var serviceConfig = Configuration.GetServiceConfig();
+
+            services.RegisterConsulServices(serviceConfig);
+        }
+
         #endregion
     }
 }

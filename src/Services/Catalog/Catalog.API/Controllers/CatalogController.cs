@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 
 namespace Catalog.API.Controllers
 {
-    [Authorize("ClientIdPolicy")]
     [ApiController]
     [Route("api/v1/[controller]")]
     public class CatalogController : ControllerBase

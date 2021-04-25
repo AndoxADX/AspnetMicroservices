@@ -3,12 +3,7 @@
     {
       "DownstreamPathTemplate": "/api/v1/Catalog",
       "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "catalog.api",
-          "Port": "443"
-        }
-      ],
+      "ServiceName": "catalog_service",
       "UpstreamPathTemplate": "/Catalog",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
       "FileCacheOptions": { "TtlSeconds": 30 },
@@ -20,12 +15,7 @@
     {
       "DownstreamPathTemplate": "/api/v1/Catalog/{catchAll}",
       "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "catalog.api",
-          "Port": "443"
-        }
-      ],
+      "ServiceName": "catalog_service",
       "UpstreamPathTemplate": "/Catalog/{catchAll}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
       "FileCacheOptions": { "TtlSeconds": 30 },
@@ -37,12 +27,7 @@
     {
       "DownstreamPathTemplate": "/api/v1/Basket",
       "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "basket.api",
-          "Port": "443"
-        }
-      ],
+      "ServiceName": "basket_service",
       "UpstreamPathTemplate": "/Basket",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
       "AuthenticationOptions": {
@@ -53,12 +38,7 @@
     {
       "DownstreamPathTemplate": "/api/v1/Basket/{catchAll}",
       "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "basket.api",
-          "Port": "443"
-        }
-      ],
+      "ServiceName": "basket_service",
       "UpstreamPathTemplate": "/Basket/{catchAll}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
       "RateLimitOptions": {
@@ -76,12 +56,7 @@
     {
       "DownstreamPathTemplate": "/api/v1/Discount",
       "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "discount.api",
-          "Port": "443"
-        }
-      ],
+      "ServiceName": "discount_service",
       "UpstreamPathTemplate": "/Discount",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
       "RateLimitOptions": {
@@ -95,24 +70,14 @@
     {
       "DownstreamPathTemplate": "/api/v1/Discount/{catchAll}",
       "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "discount.api",
-          "Port": "443"
-        }
-      ],
+      "ServiceName": "discount_service",
       "UpstreamPathTemplate": "/Discount/{catchAll}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     },
     {
       "DownstreamPathTemplate": "/api/v1/Order",
       "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "ordering.api",
-          "Port": "443"
-        }
-      ],
+      "ServiceName": "order_service",
       "UpstreamPathTemplate": "/Order",
       "UpstreamHttpMethod": [ "GET" ],
       "AuthenticationOptions": {
@@ -123,12 +88,7 @@
     {
       "DownstreamPathTemplate": "/api/v1/Order/{catchAll}",
       "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "ordering.api",
-          "Port": "443"
-        }
-      ],
+      "ServiceName": "order_service",
       "UpstreamPathTemplate": "/Order/{catchAll}",
       "UpstreamHttpMethod": [ "GET" ],
       "AuthenticationOptions": {
@@ -138,6 +98,10 @@
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:5000"
+    "ServiceDiscoveryProvider": {
+      "Host": "consul",
+      "Port": 8500,
+      "Type": "Consul"
+    }
   }
 }
