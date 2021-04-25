@@ -48,7 +48,6 @@ namespace Basket.API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Basket.API v1"));
             }
 
-            app.UseHttpsRedirection();
             app.UseRouting();
 
             app.UseAuthentication();
@@ -102,6 +101,7 @@ namespace Basket.API
                     {
                         ValidateAudience = false
                     };
+                    options.RequireHttpsMetadata = false;
                 });
 
             services.AddAuthorization(options =>

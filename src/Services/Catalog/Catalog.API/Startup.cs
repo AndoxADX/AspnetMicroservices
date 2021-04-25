@@ -49,7 +49,6 @@ namespace Catalog.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Catalog.API v1"));
             }
-            app.UseHttpsRedirection();
             app.UseRouting();
 
             app.UseAuthentication();
@@ -67,6 +66,7 @@ namespace Catalog.API
                 .AddJwtBearer("Bearer", options =>
                 {
                     options.Authority = Configuration["IdentityServer:BaseUrl"];
+					options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateAudience = false

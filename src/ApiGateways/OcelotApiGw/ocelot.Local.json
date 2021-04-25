@@ -2,7 +2,7 @@
   "Routes": [
     {
       "DownstreamPathTemplate": "/api/v1/Catalog",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -19,7 +19,7 @@
     },
     {
       "DownstreamPathTemplate": "/api/v1/Catalog/{catchAll}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -36,7 +36,7 @@
     },
     {
       "DownstreamPathTemplate": "/api/v1/Basket",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -52,7 +52,7 @@
     },
     {
       "DownstreamPathTemplate": "/api/v1/Basket/{catchAll}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -75,7 +75,7 @@
     },
     {
       "DownstreamPathTemplate": "/api/v1/Discount",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -94,7 +94,7 @@
     },
     {
       "DownstreamPathTemplate": "/api/v1/Discount/{catchAll}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -106,7 +106,7 @@
     },
     {
       "DownstreamPathTemplate": "/api/v1/Order",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -122,7 +122,7 @@
     },
     {
       "DownstreamPathTemplate": "/api/v1/Order/{catchAll}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",

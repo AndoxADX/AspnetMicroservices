@@ -40,7 +40,6 @@ namespace OcelotApiGw
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
@@ -61,11 +60,11 @@ namespace OcelotApiGw
             .AddJwtBearer(authenticationProviderKey, x =>
             {
                 x.Authority = Configuration["IdentityServer:BaseUrl"]; // IDENTITY SERVER URL
-                                                        //x.RequireHttpsMetadata = false;
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateAudience = false
                 };
+                x.RequireHttpsMetadata = false;
             });
         } 
         #endregion

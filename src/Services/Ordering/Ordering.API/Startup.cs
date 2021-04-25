@@ -48,7 +48,6 @@ namespace Ordering.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ordering.API v1"));
             }
-            app.UseHttpsRedirection();
             app.UseRouting();
 
             app.UseAuthentication();
@@ -88,6 +87,7 @@ namespace Ordering.API
                     {
                         ValidateAudience = false
                     };
+                    options.RequireHttpsMetadata = false;
                 });
 
             services.AddAuthorization(options =>

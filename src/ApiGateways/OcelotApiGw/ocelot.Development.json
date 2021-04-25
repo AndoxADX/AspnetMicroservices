@@ -6,7 +6,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "catalog.api",
-          "Port": "443"
+          "Port": "80"
         }
       ],
       "UpstreamPathTemplate": "/Catalog",
@@ -23,7 +23,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "catalog.api",
-          "Port": "443"
+          "Port": "80"
         }
       ],
       "UpstreamPathTemplate": "/Catalog/{catchAll}",
@@ -40,7 +40,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "basket.api",
-          "Port": "443"
+          "Port": "80"
         }
       ],
       "UpstreamPathTemplate": "/Basket",
@@ -56,7 +56,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "basket.api",
-          "Port": "443"
+          "Port": "80"
         }
       ],
       "UpstreamPathTemplate": "/Basket/{catchAll}",
@@ -79,7 +79,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "discount.api",
-          "Port": "443"
+          "Port": "80"
         }
       ],
       "UpstreamPathTemplate": "/Discount",
@@ -98,7 +98,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "discount.api",
-          "Port": "443"
+          "Port": "80"
         }
       ],
       "UpstreamPathTemplate": "/Discount/{catchAll}",
@@ -110,7 +110,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "ordering.api",
-          "Port": "443"
+          "Port": "80"
         }
       ],
       "UpstreamPathTemplate": "/Order",
@@ -126,7 +126,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "ordering.api",
-          "Port": "443"
+          "Port": "80"
         }
       ],
       "UpstreamPathTemplate": "/Order/{catchAll}",
@@ -138,6 +138,6 @@
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:5000"
+    "BaseUrl": "http://localhost:5000"
   }
 }

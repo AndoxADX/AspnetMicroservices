@@ -37,7 +37,6 @@ namespace Discount.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Discount.API v1"));
             }
-            app.UseHttpsRedirection();
             app.UseRouting();
 
             app.UseAuthorization();

@@ -13,6 +13,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using System;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Hosting;
+using AspnetRunBasics.Extensions;
 
 namespace AspnetRunBasics
 {
@@ -51,7 +54,6 @@ namespace AspnetRunBasics
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -110,6 +112,7 @@ namespace AspnetRunBasics
 
                 options.SaveTokens = true;
                 options.GetClaimsFromUserInfoEndpoint = true;
+                options.RequireHttpsMetadata = false;
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
