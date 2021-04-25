@@ -1,5 +1,6 @@
 ﻿using Consul;
 using Microsoft.Extensions.Hosting;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -26,7 +27,12 @@ namespace Infrastructure.ServiceDiscovery
                 ID = _registrationId,
                 Name = _config.ServiceName,
                 Address = _config.ServiceAddress.Host,
-                Port = _config.ServiceAddress.Port
+                Port = _config.ServiceAddress.Port,
+                //Check = new AgentCheckRegistration()
+                //{
+                //    HTTP = $"{_config.ServiceAddress}/health",
+                //    Interval = TimeSpan.FromSeconds(10)
+                //}
             };
 
             await _client.Agent.ServiceDeregister(registration.ID, cancellationToken);
